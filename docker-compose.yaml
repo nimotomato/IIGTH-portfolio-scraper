@@ -4,5 +4,10 @@ services:
     container_name: isitgoingtohell
     environment:
       - SENTIMENT_MODEL=finiteautomata/bertweet-base-sentiment-analysis
+      - DB_USERNAME=${db_username}
+      - DB_PASSWORD=${db_password}
+      - DB_HOST=${db_host}
+      - DB_PORT=${db_port}
+      - DB_NAME=${db_name}
     volumes:
       - .:/app

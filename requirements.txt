@@ -3,3 +3,4 @@ pandas
 SQLAlchemy
 transformers
 torch
+psycopg2-binary
