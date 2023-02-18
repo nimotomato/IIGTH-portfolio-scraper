@@ -6,7 +6,7 @@ log = getLogger("Main")
 
 
 def main():
-    print("Hellul world!")
+
     log.info("scraping news...")
     scrape_news()
 

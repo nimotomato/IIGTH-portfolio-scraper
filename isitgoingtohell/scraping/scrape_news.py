@@ -49,10 +49,10 @@ def scrape_news() -> pd.DataFrame:
     spiders = [BbcSpider, AlJazeeraSpider, ReutersSpider]
     run_spiders(spiders, output_csv)
 
-    # # load data, remove dupicates etc
-    # news_df = load_data(output_csv)
+    # load data, remove dupicates etc
+    news_df = load_data(output_csv)
 
-    # # remove csv file
-    # os.remove(output_csv)
+    # remove csv file
+    os.remove(output_csv)
 
-    # return news_df
+    return news_df
