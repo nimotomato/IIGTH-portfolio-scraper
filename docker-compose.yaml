@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    container_name: isitgoingtohell
+    command: python -m isitgoingtohell.main
+    volumes:
+      - .:/app
