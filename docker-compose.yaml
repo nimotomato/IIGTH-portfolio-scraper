@@ -2,6 +2,7 @@ services:
   app:
     build: .
     container_name: isitgoingtohell
-    command: python -m isitgoingtohell.main
+    environment:
+      - SENTIMENT_MODEL=finiteautomata/bertweet-base-sentiment-analysis
     volumes:
       - .:/app
