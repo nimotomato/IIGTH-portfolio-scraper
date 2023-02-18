@@ -1,3 +1,5 @@
 scrapy
 pandas
 SQLAlchemy
+transformers
+torch
