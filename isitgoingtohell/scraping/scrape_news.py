@@ -9,13 +9,13 @@ from scrapy.spiders import CrawlSpider
 from isitgoingtohell.scraping.spiders.aljazeera_spider import AlJazeeraSpider
 from isitgoingtohell.scraping.spiders.bbc_spider import BbcSpider
 from isitgoingtohell.scraping.spiders.reuters_spider import ReutersSpider
+from isitgoingtohell.scraping.spiders.guardian_spider import GuardianSpider
 
 
-def run_spiders(spiders: List[CrawlSpider], output_csv: str) -> None:
-
+def run_spiders(spiders, output_csv: str) -> None:
     process = CrawlerProcess(
         settings={
-            "CLOSESPIDER_ITEMCOUNT": 80,
+            "CLOSESPIDER_ITEMCOUNT": 100,
             "OUTPUT_CSV": output_csv,
             "ITEM_PIPELINES": {
                 "isitgoingtohell.scraping.pipelines.RegionPipeline": 300,
@@ -40,13 +40,12 @@ def load_data(output_csv: str) -> pd.DataFrame:
 
 
 def scrape_news() -> pd.DataFrame:
-
     # all scrapers will write to this csv.
     # we load data from it then remove it
     output_csv = "output_news.csv"
 
     # scrape news
-    spiders = [BbcSpider, AlJazeeraSpider, ReutersSpider]
+    spiders = [GuardianSpider, ReutersSpider, BbcSpider, AlJazeeraSpider]
     run_spiders(spiders, output_csv)
 
     # load data, remove dupicates etc
