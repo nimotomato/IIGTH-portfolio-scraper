@@ -15,6 +15,8 @@ class RegionPipeline:
     def process_item(self, item, spider):
         if item["region"] == "us_and_canada":
             item["region"] = "north america"
+        if item["region"] == "usa":
+            item["region"] = "north america"
         elif item["region"] == "middle_east":
             item["region"] = "asia"
         elif item["region"] == "australia":
@@ -37,6 +39,8 @@ class RegionPipeline:
             item["region"] = "asia"
         elif item["region"] == "united kingdom":
             item["region"] = "europe"
+        elif item["region"] == "uk":
+            item["region"] = "europe"
         elif item["region"] == "united states":
             item["region"] = "north america"
         elif item["region"] == "middle east":
@@ -49,6 +53,10 @@ class RegionPipeline:
             item["region"] = "africa"
         elif item["region"] == "israel":
             item["region"] = "asia"
+        elif item["region"] == "asia pacific":
+            item["region"] = "asia"
+        elif item["region"] == "russia":
+            item["region"] = "europe"
         else:
             if item["region"] not in REGIONS:
                 item["region"] = None
@@ -58,7 +66,6 @@ class RegionPipeline:
 
 class CsvWriterPipeline(object):
     def open_spider(self, spider):
-
         if not os.path.exists(spider.settings["OUTPUT_CSV"]):
             with open(spider.settings["OUTPUT_CSV"], "w") as f:
                 f.write("headline\tdate\tregion\tsource\n")
@@ -69,5 +76,7 @@ class CsvWriterPipeline(object):
         self.file.close()
 
     def process_item(self, item, spider):
-        self.file.write(f'{item["headline"]}\t{item["date"]}\t{item["region"]}\t{item["source"]}\n')
+        self.file.write(
+            f'{item["headline"]}\t{item["date"]}\t{item["region"]}\t{item["source"]}\n'
+        )
         return item
