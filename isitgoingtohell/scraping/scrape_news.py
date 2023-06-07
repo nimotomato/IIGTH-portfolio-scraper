@@ -1,10 +1,7 @@
-import datetime
 import os
-from typing import List
 
 import pandas as pd
 from scrapy.crawler import CrawlerProcess
-from scrapy.spiders import CrawlSpider
 
 from isitgoingtohell.scraping.spiders.aljazeera_spider import AlJazeeraSpider
 from isitgoingtohell.scraping.spiders.bbc_spider import BbcSpider
@@ -15,10 +12,10 @@ from isitgoingtohell.scraping.spiders.guardian_spider import GuardianSpider
 def run_spiders(spiders, output_csv: str) -> None:
     process = CrawlerProcess(
         settings={
-            "CLOSESPIDER_ITEMCOUNT": 100,
             "OUTPUT_CSV": output_csv,
             "ITEM_PIPELINES": {
                 "isitgoingtohell.scraping.pipelines.RegionPipeline": 300,
+                "isitgoingtohell.scraping.pipelines.DateRestrictorPipeline": 400,
                 "isitgoingtohell.scraping.pipelines.CsvWriterPipeline": 900,
             },
         }
@@ -32,10 +29,18 @@ def run_spiders(spiders, output_csv: str) -> None:
 
 def load_data(output_csv: str) -> pd.DataFrame:
     news_df = pd.read_csv(output_csv, delimiter="\t")
+
     news_df.drop_duplicates(subset=["headline"], inplace=True)
+
     # as we write to .csv in all scrapers None gets treated as a string..
+    # remove items with no region
     news_df = news_df[news_df["region"] != "None"]
+
+    # remove items with no date
+    news_df = news_df[news_df["date"] != "None"]
+
     news_df.reset_index(inplace=True, drop=True)
+
     return news_df
 
 
@@ -51,7 +56,7 @@ def scrape_news() -> pd.DataFrame:
     # load data, remove dupicates etc
     news_df = load_data(output_csv)
 
-    # remove csv file
-    os.remove(output_csv)
+    # # remove csv file
+    # os.remove(output_csv)
 
     return news_df

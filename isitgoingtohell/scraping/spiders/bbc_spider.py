@@ -32,10 +32,14 @@ class BbcSpider(CrawlSpider):
             scraper_item["headline"] = (
                 response.css('h1[id="main-heading"] ::text').get().replace("'", "")
             )
-            scraper_item["date"] = response.css("time::attr(datetime)").get().split("T")[0]
+            scraper_item["date"] = (
+                response.css("time::attr(datetime)").get().split("T")[0]
+            )
             if scraper_item["date"] == "P":
                 scraper_item["date"] = None
-            region = re.search(r"\/world\/?-?([a-z]+_?[a-z]+?[a-z]+_?[a-z]+)", response.url)
+            region = re.search(
+                r"\/world\/?-?([a-z]+_?[a-z]+?[a-z]+_?[a-z]+)", response.url
+            )
             scraper_item["region"] = region.group(1)
 
             # add source

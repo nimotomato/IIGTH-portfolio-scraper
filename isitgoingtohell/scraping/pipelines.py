@@ -2,6 +2,7 @@
 #
 
 import os
+from datetime import datetime
 
 REGIONS = ["africa", "asia", "europe", "oceania", "north america", "south america"]
 
@@ -9,6 +10,8 @@ filename = "items"
 
 
 class RegionPipeline:
+    # Homogenizes naming convention of geographical confinements on planet Terra
+
     def __init__(self):
         pass
 
@@ -53,6 +56,8 @@ class RegionPipeline:
             item["region"] = "africa"
         elif item["region"] == "israel":
             item["region"] = "asia"
+        elif item["region"] == "india":
+            item["region"] = "asia"
         elif item["region"] == "asia pacific":
             item["region"] = "asia"
         elif item["region"] == "russia":
@@ -60,6 +65,23 @@ class RegionPipeline:
         else:
             if item["region"] not in REGIONS:
                 item["region"] = None
+
+        return item
+
+
+class DateRestrictorPipeline:
+    # The scraper goes deep and returns old articles. However, these are not numerous enough to be useful. This filters out all older than start_date
+    def __init__(self):
+        pass
+
+    def process_item(self, item, spider):
+        start_date = datetime.strptime("2023-01-01", "%Y-%m-%d")
+
+        if isinstance(item["date"], str):
+            formatted_newsitem_date = datetime.strptime(item["date"], "%Y-%m-%d")
+
+        if formatted_newsitem_date < start_date:
+            item["date"] = None
 
         return item
 

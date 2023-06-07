@@ -111,6 +111,7 @@ ENV/
 env.bak/
 venv.bak/
 ./myenv
+myenv/
 
 # Spyder project settings
 .spyderproject
@@ -132,3 +133,7 @@ dmypy.json
 
 # Misc
 cmds
+
+# notebook
+Untitled-1.ipynb
+202306071039_oldnews.csv

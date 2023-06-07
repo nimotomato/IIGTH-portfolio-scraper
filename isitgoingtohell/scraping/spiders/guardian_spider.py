@@ -11,7 +11,8 @@ class GuardianSpider(XMLFeedSpider):
         ("sitemap", "http://www.sitemaps.org/schemas/sitemap/0.9"),
         ("news", "http://www.google.com/schemas/sitemap-news/0.9"),
     ]
-    # What tag the spider groups & iterates by
+
+    # What tag the spider groups and iterates by
     itertag = "sitemap:url"
 
     REGIONS = {
